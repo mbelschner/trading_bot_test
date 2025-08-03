@@ -1,3 +1,4 @@
+# .github/workflows/scheduled-bot.yml
 name: Geplanter Bot-Run
 
 on:
@@ -12,22 +13,25 @@ jobs:
       CC_API_KEY: ${{ secrets.CC_API_KEY }}
       CC_IDENTIFIER: ${{ secrets.CC_IDENTIFIER }}
       CC_PASSWORD: ${{ secrets.CC_PASSWORD }}
-      CC_BASE_URL: ${{ secrets.CC_BASE_URL }}
-      MARKET_ID: ${{ secrets.MARKET_ID }}
-      RESOLUTION: ${{ secrets.RESOLUTION }}
-      TRADE_SIZE: ${{ secrets.TRADE_SIZE }}
+      BASE_URL: https://demo-api-capital.backend-capital.com
+      MARKET_ID: BTCUSD
+      RESOLUTION: MINUTE_5
+      TRADE_SIZE: 0.01
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python with pip cache
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+          cache: 'pip'
 
-      - name: Install dependencies
-        if: exists('requirements.txt')
-        run: pip install -r requirements.txt
+      - name: Install dependencies (wenn vorhanden)
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
 
       - name: Run bot script
         run: python main_1.1py
-
