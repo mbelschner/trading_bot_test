@@ -1,5 +1,5 @@
 # .github/workflows/scheduled-bot.yml
-name: Geplanter Bot-Run
+name: Trading Bot Run
 
 on:
   schedule:
@@ -34,4 +34,4 @@ jobs:
           fi
 
       - name: Run bot script
-        run: python main_1.1py
+        run: python main_1.1.py
