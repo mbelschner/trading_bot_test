@@ -59,7 +59,7 @@ def run_cycle(session: CapitalSession, epic: str = MARKET_EPIC, trade_size: floa
             return
         place_market_order(signal, trade_size, entry_price, stop_loss_price, take_profit_price, session, epic)
     else:
-        logging.info("HOLD – kein Trade.")
+        logging.info("HOLD - kein Trade.")
 
 if __name__ == "__main__":
     run_cycle(SESSION)
