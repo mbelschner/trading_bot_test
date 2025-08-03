@@ -1,12 +1,10 @@
-# .github/workflows/scheduled-bot.yml
 name: Trading Bot Run
 
 on:
   schedule:
-    - cron: '*/5 6-17 * * *'             # alle 5 Minuten von 06:00–17:55 UTC = 08:00–19:55 CEST
-    - cron: '0,5,10,15,20,25,30 18 * * *' # zusätzlich 18:00–18:30 UTC = 20:00–20:30 CEST
+    - cron: '*/5 6-17 * * *'
+    - cron: '0,5,10,15,20,25,30 18 * * *'
 
-#
 jobs:
   run-bot:
     runs-on: ubuntu-latest
@@ -26,13 +24,17 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-          cache: 'pip'
 
-      - name: Install dependencies (wenn vorhanden)
-        run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          fi
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
       - name: Run bot script
         run: python main_1.1.py
